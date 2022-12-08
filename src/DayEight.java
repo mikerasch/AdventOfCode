@@ -16,9 +16,10 @@ public class DayEight {
         int count = 0;
         for(int i = 0; i < data.size(); i++){
             for(int j = 0; j < data.get(i).size(); j++){
-                if(getAllFourDirections(i,j,data)){
+                List<?> list = getAllFourDirections(i,j,data);
+                if((boolean)list.get(0)){
                     total++;
-                    count = Math.max(count,getCount(i,j,data));
+                    count = Math.max(count,(Integer)list.get(1));
                 }
             }
         }
@@ -26,14 +27,19 @@ public class DayEight {
         System.out.println(count);
     }
 
-    private static boolean getAllFourDirections(int i, int j,List<List<Integer>> data) {
+    private static List<?> getAllFourDirections(int i, int j,List<List<Integer>> data) {
         int current = data.get(i).get(j);
         boolean top = true;
         boolean bottom = true;
         boolean left = true;
         boolean right = true;
+        int topInt = 0;
+        int bottomInt = 0;
+        int leftInt = 0;
+        int rightInt = 0;
         // here
         for(int x = i - 1; x >= 0; x--){
+            ++topInt;
             if(data.get(x).get(j) >= current){
                 top = false;
                 break;
@@ -42,6 +48,7 @@ public class DayEight {
 
         // bottom
         for(int x = i + 1; x < data.size(); x++){
+            ++bottomInt;
             if(data.get(x).get(j) >= current){
                 bottom = false;
                 break;
@@ -50,6 +57,7 @@ public class DayEight {
 
         // left
         for(int x = j - 1; x >= 0; x--){
+            ++leftInt;
             if(data.get(i).get(x) >= current){
                 left = false;
                 break;
@@ -58,52 +66,13 @@ public class DayEight {
 
         // right
         for(int x = j + 1; x < data.get(i).size(); x++){
+            ++rightInt;
             if(data.get(i).get(x) >= current){
                 right = false;
                 break;
             }
         }
-        return top || bottom || left || right;
-    }
-
-    private static int getCount(int i, int j,List<List<Integer>> data) {
-        int current = data.get(i).get(j);
-        int top = 0;
-        int bottom = 0;
-        int right = 0;
-        int left = 0;
-        // top
-        for(int x = i - 1; x >= 0; x--){
-            top++;
-            if(data.get(x).get(j) >= current){
-                break;
-            }
-        }
-
-        // bottom
-        for(int x = i + 1; x < data.size(); x++){
-            bottom++;
-            if(data.get(x).get(j) >= current){
-                break;
-            }
-        }
-
-        // left
-        for(int x = j - 1; x >= 0; x--){
-            left++;
-            if(data.get(i).get(x) >= current){
-                break;
-            }
-        }
-
-        // right
-        for(int x = j + 1; x < data.get(i).size(); x++){
-            right++;
-            if(data.get(i).get(x) >= current){
-                break;
-            }
-        }
-        return top * bottom * left * right;
+        return List.of(top || bottom || left || right, topInt * bottomInt * leftInt * rightInt);
     }
 
     public static List<List<Integer>> readFile() throws IOException {
