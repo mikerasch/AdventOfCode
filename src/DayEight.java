@@ -11,6 +11,12 @@ public class DayEight {
         getVisibleTrees(data);
     }
 
+    /**
+     * Could start looping (inside) the box if wanting to. (Starting at 1 on both i and j)
+     * The outer shell does not matter and will always be constant.
+     * Would require a way to get the parameter of the matrix however, which does not seem worth it
+     * as this solution covers that
+     */
     private static void getVisibleTrees(List<List<Integer>> data) {
         int total = 0;
         int count = 0;
